@@ -1,0 +1,2381 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ultimate Meteor 3 - UMOSP</title>
+    <style>
+        /* MAVİ VURGUYU VE ÇERÇEVELERİ TÜM SİSTEMDE YOK EDEN AYAR */
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent !important;
+            -webkit-focus-ring-color: transparent !important;
+            outline: none !important;
+        }
+
+        /* Lavanta Teması */
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background: linear-gradient(to bottom right, #2d1b4d, #000000);
+            font-family: 'Arial', sans-serif;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-align: center;
+        }
+
+        .container {
+            padding: 2.5rem;
+            max-width: 850px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            background-color: rgba(20, 10, 30, 0.65);
+            border-radius: 20px;
+            border: 1px solid rgba(230, 230, 250, 0.25);
+            box-shadow: 0 0 35px rgba(147, 112, 219, 0.35);
+        }
+
+        h1 {
+            font-size: 3.2rem;
+            color: #E6E6FA;
+            text-shadow: 0 0 20px #9370DB;
+            margin-bottom: 0.2rem;
+            letter-spacing: 2px;
+        }
+
+        h2 {
+            font-size: 1.4rem;
+            color: #D8BFD8;
+            margin-bottom: 2rem;
+            font-weight: normal;
+        }
+
+        /* Kod Alanı - Düzenlenemez */
+        #source-text {
+            width: 100%;
+            height: 280px;
+            padding: 15px;
+            border: 2px solid rgba(147, 112, 219, 0.5);
+            background-color: rgba(10, 5, 25, 0.85);
+            color: #E6E6FA;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 0.85rem;
+            resize: none;
+            border-radius: 12px;
+            margin-top: 1.5rem;
+            text-align: left;
+            line-height: 1.4;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 2.5rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            color: white;
+            border: none;
+            padding: 1.1rem 2.2rem;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            min-width: 240px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-transform: uppercase;
+        }
+
+        .btn-download {
+            background: linear-gradient(to bottom, #9370DB, #4B0082);
+            box-shadow: 0 5px 15px rgba(147, 112, 219, 0.3);
+        }
+
+        .btn-copy {
+            background: linear-gradient(to bottom, #444, #222);
+            border: 1px solid #7B68EE;
+        }
+
+        .btn:hover {
+            transform: translateY(-4px);
+            filter: brightness(1.2);
+        }
+
+        .btn:active { transform: scale(0.95); }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>ULTIMATE METEOR</h1>
+        <h2>3 - Açık Kaynak</h2>
+
+        <textarea id="source-text" readonly>
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ULTIMATE METEOR 3</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+            margin: 0;
+            padding: 0;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        body {
+            background: #000;
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+            touch-action: none;
+            height: 100vh;
+            width: 100vw;
+            position: fixed;
+        }
+
+        #gameCanvas {
+            display: block;
+            background: #000;
+            margin: 0 auto;
+            touch-action: none;
+        }
+
+        #menu {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: radial-gradient(ellipse at center, rgba(80,0,80,0.9) 0%, rgba(0,0,0,0.95) 100%);
+            z-index: 100;
+            color: white;
+            text-align: center;
+            touch-action: pan-y;
+        }
+
+        .menu-title {
+            font-size: 2.8rem;
+            margin-bottom: 0.5rem;
+            color: #b57edc;
+            text-shadow: 0 0 25px #9370db, 0 0 35px #9370db, 0 0 45px #9370db;
+            background: linear-gradient(45deg, #b57edc, #9370db, #b57edc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: bold;
+            letter-spacing: 2px;
+            padding: 0 1rem;
+        }
+
+        .subtitle {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            color: #d8bfd8;
+            text-shadow: 0 0 15px #b57edc;
+            font-weight: bold;
+        }
+
+        .btn {
+            background: linear-gradient(to bottom, #b57edc, #9370db);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            margin: 0.6rem;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            min-width: 200px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.2s;
+            box-shadow: 0 0 15px rgba(181, 126, 220, 0.5);
+            touch-action: manipulation;
+        }
+
+        .btn:active {
+            transform: scale(0.95);
+            box-shadow: 0 0 10px rgba(181, 126, 220, 0.8);
+        }
+
+        #controls {
+            position: absolute;
+            bottom: 2rem;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            touch-action: manipulation;
+            z-index: 60;
+        }
+
+        .control-btn {
+            background: rgba(181, 126, 220, 0.3);
+            color: white;
+            border: none;
+            width: 5rem;
+            height: 5rem;
+            border-radius: 50%;
+            font-size: 1.8rem;
+            cursor: pointer;
+            transition: all 0.1s;
+            border: 2px solid rgba(181, 126, 220, 0.6);
+            touch-action: manipulation;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        .control-btn:active {
+            transform: scale(0.85);
+            background: rgba(181, 126, 220, 0.6);
+        }
+
+        #shootBtn {
+            background: rgba(147, 112, 219, 0.4);
+            border-color: rgba(147, 112, 219, 0.8);
+        }
+
+        #pauseBtn {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(181, 126, 220, 0.7);
+            color: white;
+            border: none;
+            width: 3.5rem;
+            height: 3.5rem;
+            border-radius: 50%;
+            font-size: 1.3rem;
+            z-index: 50;
+            display: none;
+            font-weight: bold;
+            cursor: pointer;
+            touch-action: manipulation;
+        }
+
+        #gameInfo {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+            color: white;
+            font-size: 1.3rem;
+            z-index: 50;
+        }
+
+        #lives, #scoreDisplay, #goldDisplay, #powerDisplay {
+            background: rgba(0, 0, 0, 0.6);
+            padding: 0.8rem 1.2rem;
+            border-radius: 15px;
+            border: 2px solid #b57edc;
+            box-shadow: 0 0 10px rgba(181, 126, 220, 0.3);
+        }
+
+        .mode-btn {
+            background: rgba(181, 126, 220, 0.1);
+            border: 2px solid #b57edc;
+            color: #b57edc;
+            padding: 0.7rem 1rem;
+            margin: 0.2rem;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.8rem;
+            min-width: 90px;
+            touch-action: manipulation;
+        }
+
+        .mode-btn.active {
+            background: #b57edc;
+            color: black;
+            box-shadow: 0 0 20px rgba(181, 126, 220, 0.7);
+            font-weight: bold;
+        }
+
+        .mode-btn:active {
+            transform: scale(0.95);
+        }
+
+        #mode-container {
+            display: flex;
+            margin: 0.5rem 0;
+            flex-wrap: wrap;
+            justify-content: center;
+            max-width: 90%;
+            gap: 0.3rem;
+        }
+
+        #language-btn {
+            background: transparent;
+            border: 2px solid #b57edc;
+            color: #b57edc;
+            margin-top: 0.5rem;
+        }
+
+        /* MODE SELECTION */
+        .mode-btn.easy {
+            border-color: #98fb98;
+            color: #98fb98;
+        }
+        .mode-btn.easy.active {
+            background: #98fb98;
+            color: black;
+            box-shadow: 0 0 20px rgba(152, 251, 152, 0.7);
+        }
+
+        .mode-btn.normal {
+            border-color: #87ceeb;
+            color: #87ceeb;
+        }
+        .mode-btn.normal.active {
+            background: #87ceeb;
+            color: black;
+            box-shadow: 0 0 20px rgba(135, 206, 235, 0.7);
+        }
+
+        .mode-btn.hard {
+            border-color: #9370db;
+            color: #9370db;
+        }
+        .mode-btn.hard.active {
+            background: #9370db;
+            color: black;
+            box-shadow: 0 0 20px rgba(147, 112, 219, 0.7);
+        }
+
+        .mode-btn.extreme {
+            border-color: #ba55d3;
+            color: #ba55d3;
+        }
+        .mode-btn.extreme.active {
+            background: #ba55d3;
+            color: black;
+            box-shadow: 0 0 20px rgba(186, 85, 211, 0.7);
+        }
+
+        .mode-btn.impossible {
+            border-color: #ff00ff;
+            color: #ff00ff;
+        }
+        .mode-btn.impossible.active {
+            background: #ff00ff;
+            color: black;
+            box-shadow: 0 0 20px rgba(255, 0, 255, 0.7);
+        }
+
+        /* SHOP STYLES */
+        #shopMenu {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.95);
+            z-index: 200;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            color: white;
+            overflow-y: auto;
+            padding: 1rem;
+            touch-action: pan-y;
+        }
+
+        .shop-header {
+            position: sticky;
+            top: 0;
+            background: rgba(0,0,0,0.9);
+            width: 100%;
+            padding: 1rem;
+            text-align: center;
+            border-bottom: 2px solid #b57edc;
+            z-index: 201;
+        }
+
+        .shop-content {
+            width: 100%;
+            max-width: 500px;
+            padding: 1rem;
+        }
+
+        .shop-item {
+            background: rgba(181, 126, 220, 0.1);
+            border: 2px solid #b57edc;
+            border-radius: 15px;
+            padding: 1rem;
+            margin: 0.5rem 0;
+            width: 100%;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            touch-action: manipulation;
+        }
+
+        .shop-item:active {
+            transform: scale(0.95);
+            background: rgba(181, 126, 220, 0.2);
+        }
+
+        .shop-item.unlocked {
+            border-color: #98fb98;
+            background: rgba(152, 251, 152, 0.1);
+        }
+
+        .price-tag {
+            color: #b57edc;
+            font-weight: bold;
+            margin: 0.5rem 0;
+        }
+
+        .back-btn {
+            position: fixed;
+            top: 1rem;
+            left: 1rem;
+            background: rgba(181, 126, 220, 0.7);
+            color: white;
+            border: none;
+            width: 3rem;
+            height: 3rem;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            z-index: 202;
+            cursor: pointer;
+            touch-action: manipulation;
+        }
+
+        .shop-buttons {
+            position: sticky;
+            bottom: 0;
+            background: rgba(0,0,0,0.9);
+            width: 100%;
+            padding: 1rem;
+            text-align: center;
+            border-top: 2px solid #b57edc;
+        }
+
+        #menuGoldDisplay {
+            background: rgba(181, 126, 220, 0.2);
+            border: 2px solid #b57edc;
+            border-radius: 20px;
+            padding: 0.6rem 1.2rem;
+            margin: 0.5rem;
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #b57edc;
+        }
+
+        .mode-description {
+            font-size: 0.7rem;
+            opacity: 0.8;
+            margin-top: 0.2rem;
+            color: #d8bfd8;
+        }
+
+        .boss-health-bar {
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 300px;
+            height: 20px;
+            background: rgba(0,0,0,0.7);
+            border: 2px solid #b57edc;
+            border-radius: 10px;
+            overflow: hidden;
+            z-index: 40;
+        }
+
+        .boss-health-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #9370db, #b57edc);
+            transition: width 0.3s;
+        }
+
+        .boss-name {
+            position: absolute;
+            top: 35px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #b57edc;
+            font-weight: bold;
+            font-size: 1.2rem;
+            text-shadow: 0 0 10px #000;
+            z-index: 40;
+        }
+
+        .skin-preview {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0.5rem 0;
+            padding: 0.5rem;
+            background: rgba(0,0,0,0.3);
+            border-radius: 10px;
+        }
+
+        .preview-ship {
+            width: 40px;
+            height: 25px;
+            background: var(--ship-color, #b57edc);
+            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+            margin: 0 1rem;
+        }
+
+        .preview-meteor {
+            width: 25px;
+            height: 25px;
+            background: var(--meteor-color, #b57edc);
+            border-radius: 50%;
+            margin: 0 1rem;
+        }
+
+        .universe-preview {
+            width: 100%;
+            height: 80px;
+            border-radius: 10px;
+            margin: 0.5rem 0;
+            border: 2px solid #b57edc;
+        }
+
+        /* AGENT BUTTON STYLES */
+        #agentBtn {
+            position: absolute;
+            top: 1rem;
+            right: 5rem;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            border: none;
+            width: 3.5rem;
+            height: 3.5rem;
+            border-radius: 50%;
+            font-size: 1.8rem;
+            z-index: 50;
+            display: none;
+            font-weight: bold;
+            cursor: pointer;
+            touch-action: manipulation;
+            transition: all 0.3s;
+            border: 2px solid #00ff00;
+        }
+
+        #agentBtn:disabled {
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+        #agentBtn.ready {
+            background: rgba(0, 255, 0, 0.2);
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.5);
+            animation: pulse 2s infinite;
+        }
+
+        #agentBtn.active {
+            background: rgba(0, 255, 0, 0.3);
+            box-shadow: 0 0 25px rgba(0, 255, 0, 0.7);
+        }
+
+        /* Google Play tarzı dönen çember */
+        .agent-progress {
+            position: absolute;
+            top: -3px;
+            left: -3px;
+            width: calc(100% + 6px);
+            height: calc(100% + 6px);
+            border-radius: 50%;
+            background: conic-gradient(#00ff00 0%, transparent 0%);
+            -webkit-mask: radial-gradient(transparent 60%, black 61%);
+            mask: radial-gradient(transparent 60%, black 61%);
+            transition: background 0.3s;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        #agentCooldown {
+            position: absolute;
+            top: 5rem;
+            right: 5rem;
+            background: rgba(0, 0, 0, 0.7);
+            color: #00ff00;
+            padding: 0.5rem;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            z-index: 50;
+            display: none;
+            border: 1px solid #00ff00;
+        }
+
+        /* Agent aktifken meteorlara özel efekt */
+        .agent-beam {
+            position: absolute;
+            width: 4px;
+            height: 100px;
+            background: linear-gradient(to bottom, #00ff00, transparent);
+            animation: beam 0.5s linear;
+        }
+
+        @keyframes beam {
+            from { height: 0; opacity: 1; }
+            to { height: 100px; opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="gameCanvas"></canvas>
+    
+    <button id="pauseBtn">⏸</button>
+    <button id="agentBtn" title="Agent - 10 meteoru yok eder">
+        <span>🛰️</span>
+        <div class="agent-progress"></div>
+    </button>
+    <div id="agentCooldown"></div>
+    
+    <div id="gameInfo">
+        <div id="lives">❤️❤️❤️</div>
+        <div id="scoreDisplay">⭐ Skor: 0</div>
+        <div id="goldDisplay">💰 Altın: 0</div>
+        <div id="powerDisplay">⚡ Güçler: </div>
+    </div>
+
+    <div id="bossHealthBar" class="boss-health-bar" style="display: none;">
+        <div class="boss-health-fill" style="width: 100%;"></div>
+    </div>
+    <div id="bossName" class="boss-name" style="display: none;"></div>
+    
+    <div id="menu">
+        <h1 class="menu-title">ULTIMATE METEOR 3</h1>
+        <div class="subtitle">COSMIC WAR</div>
+        
+        <div id="mode-container">
+            <button class="mode-btn easy active" id="easyMode">KOLAY</button>
+            <button class="mode-btn normal" id="normalMode">NORMAL</button>
+            <button class="mode-btn hard" id="hardMode">ZOR</button>
+            <button class="mode-btn extreme" id="extremeMode">EKSTREM</button>
+            <button class="mode-btn impossible" id="impossibleMode">İMKANSIZ</button>
+        </div>
+        
+        <div id="modeDescription" class="mode-description">
+            Kolay: Yeni başlayanlar için ideal
+        </div>
+        
+        <div id="menuGoldDisplay">💰 Altın: 0</div>
+        
+        <button class="btn" id="startBtn">🚀 OYUNU BAŞLAT</button>
+        <button class="btn" id="shopBtn">🛒 KOZMİK MARKET</button>
+        
+        <button class="btn" id="keyboardControlsBtn">⌨️ KLAVYE KONTROLLERİ</button>
+
+        <button class="btn" id="language-btn">🌐 DİL: TÜRKÇE</button>
+    </div>
+
+    <div id="shopMenu">
+        <button class="back-btn" id="shopBackBtn">←</button>
+        
+        <div class="shop-header">
+            <h2 id="shopTitle">🚀 KOZMİK MARKET 🌟</h2>
+            <div id="goldDisplayShop">Altın: 0</div>
+        </div>
+        
+        <div class="shop-content">
+            <div id="shopItems">
+                <!-- Shop items will be generated here -->
+            </div>
+        </div>
+        
+        <div class="shop-buttons">
+            <button class="btn" id="backToMenuBtn">MENÜYE DÖN</button>
+        </div>
+    </div>
+
+    <div id="controls">
+        <button class="control-btn" id="leftBtn">←</button>
+        <button class="control-btn" id="shootBtn">🔴</button>
+        <button class="control-btn" id="rightBtn">→</button>
+    </div>
+
+    <script>
+        // ULTIMATE METEOR 3 - COSMIC WAR
+
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        const menu = document.getElementById('menu');
+        const shopMenu = document.getElementById('shopMenu');
+        const pauseBtn = document.getElementById('pauseBtn');
+        const agentBtn = document.getElementById('agentBtn');
+        const agentProgress = agentBtn.querySelector('.agent-progress');
+        const agentCooldown = document.getElementById('agentCooldown');
+        const livesDisplay = document.getElementById('lives');
+        const scoreDisplay = document.getElementById('scoreDisplay');
+        const goldDisplay = document.getElementById('goldDisplay');
+        const powerDisplay = document.getElementById('powerDisplay');
+        const menuGoldDisplay = document.getElementById('menuGoldDisplay');
+        const goldDisplayShop = document.getElementById('goldDisplayShop');
+        const modeDescription = document.getElementById('modeDescription');
+        const bossHealthBar = document.getElementById('bossHealthBar');
+        const bossName = document.getElementById('bossName');
+        const shopTitle = document.getElementById('shopTitle');
+        
+        function resizeCanvas() {
+            const size = Math.min(window.innerWidth, window.innerHeight);
+            canvas.width = size * 0.95;
+            canvas.height = size * 1.3;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+        
+        let gameActive = false;
+        let gamePaused = false;
+        let lives = 3;
+        let score = 0;
+        let gold = 0;
+        let language = 'Turkish';
+        let gameMode = 'Easy';
+        let meteorsDestroyed = 0;
+        let bossActive = false;
+        let bossHealth = 0;
+        let bossMaxHealth = 0;
+        let currentBoss = null;
+        let currentUniverse = 'default';
+
+        // AGENT SİSTEMİ
+        let agent = {
+            unlocked: false,
+            active: false,
+            cooldown: 0,
+            maxCooldown: 1800, // 30 saniye (60 FPS)
+            price: 80,
+            meteorsToDestroy: 10,
+            meteorsDestroyed: 0
+        };
+
+        let stars = [];
+        function createStars() {
+            stars = [];
+            for (let i = 0; i < 100; i++) {
+                stars.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    size: Math.random() * 2 + 1,
+                    speed: Math.random() * 0.5 + 0.1,
+                    brightness: Math.random() * 0.5 + 0.5
+                });
+            }
+        }
+
+        function updateStars() {
+            stars.forEach(star => {
+                star.y += star.speed;
+                if (star.y > canvas.height) {
+                    star.y = 0;
+                    star.x = Math.random() * canvas.width;
+                }
+            });
+        }
+
+        function drawStars() {
+            stars.forEach(star => {
+                ctx.globalAlpha = star.brightness;
+                ctx.fillStyle = '#ffffff';
+                ctx.beginPath();
+                ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
+                ctx.fill();
+            });
+            ctx.globalAlpha = 1.0;
+        }
+
+        // EVREN SİSTEMİ
+        const universes = {
+            default: {
+                name: { Turkish: 'Standart Evren', English: 'Standard Universe' },
+                background: '#110011',
+                unlocked: true,
+                price: 0
+            },
+            earth: {
+                name: { Turkish: 'Dünya Evreni', English: 'Earth Universe' },
+                background: '#001122',
+                unlocked: false,
+                price: 100
+            },
+            apocalypse: {
+                name: { Turkish: 'Kıyamet Evreni', English: 'Apocalypse Universe' },
+                background: '#330000',
+                unlocked: false,
+                price: 100
+            }
+        };
+
+        let shipSkins = {
+            default: { color: '#b57edc', name: { Turkish: 'Lavanta Savaşçı', English: 'Lavender Warrior' }, unlocked: true },
+            premium: { color: '#FFD700', name: { Turkish: 'Altın Savaşçı', English: 'Golden Warrior' }, price: 35, unlocked: false },
+            fire: { color: '#FF4500', name: { Turkish: 'Ateş Savaşçısı', English: 'Fire Warrior' }, price: 35, unlocked: false },
+            ice: { color: '#00FFFF', name: { Turkish: 'Buz Savaşçısı', English: 'Ice Warrior' }, price: 35, unlocked: false },
+            neon: { color: '#FF00FF', name: { Turkish: 'Neon Savaşçısı', English: 'Neon Warrior' }, price: 35, unlocked: false },
+            cosmic: { color: '#9370DB', name: { Turkish: 'Kozmik Savaşçı', English: 'Cosmic Warrior' }, price: 40, unlocked: false }
+        };
+
+        let meteorSkins = {
+            default: { color: '#b57edc', name: { Turkish: 'Lavanta Meteor', English: 'Lavender Meteor' }, unlocked: true },
+            gold: { color: '#FFD700', name: { Turkish: 'Altın Meteor', English: 'Golden Meteor' }, price: 25, unlocked: false },
+            crystal: { color: '#87CEEB', name: { Turkish: 'Kristal Meteor', English: 'Crystal Meteor' }, price: 25, unlocked: false },
+            lava: { color: '#FF8C00', name: { Turkish: 'Lav Meteor', English: 'Lava Meteor' }, price: 25, unlocked: false },
+            cosmic: { color: '#9370DB', name: { Turkish: 'Kozmik Meteor', English: 'Cosmic Meteor' }, price: 25, unlocked: false },
+            dark: { color: '#4B0082', name: { Turkish: 'Karanlık Meteor', English: 'Dark Meteor' }, price: 30, unlocked: false }
+        };
+
+        let currentShipSkin = 'default';
+        let currentMeteorSkin = 'default';
+
+        const METEOR_TYPES = {
+            NORMAL: { health: 1, color: '#b57edc', points: 10 },
+            LAVA: { health: 2, color: '#ba55d3', points: 15, effect: 'explosive' },
+            DARK: { health: 3, color: '#9370db', points: 20, effect: 'invisible' }
+        };
+
+        let powerUps = {
+            shield: { active: false, duration: 0, maxDuration: 600 },
+            rapidFire: { active: false, duration: 0, maxDuration: 450 },
+            tripleShot: { active: false, duration: 0, maxDuration: 300 },
+            bomb: { active: false, duration: 0, maxDuration: 180 },
+            laser: { active: false, duration: 0, maxDuration: 240 },
+            timeFreeze: { active: false, duration: 0, maxDuration: 400 },
+            apocalypse: { active: false, duration: 0, maxDuration: 200 }
+        };
+
+        const BOSSES = {
+            INFERNO_DRAGON: {
+                name: '🔥 Ateş Ejderhası',
+                health: 1000,
+                color: '#ba55d3',
+                attackPattern: 'fire',
+                speed: 1.5,
+                size: 150
+            },
+            DARK_LORD: {
+                name: '🌑 Karanlık Lordu', 
+                health: 1200,
+                color: '#9370db',
+                attackPattern: 'shadow',
+                speed: 2,
+                size: 130
+            },
+            APOCALYPSE_BEAST: {
+                name: '💀 Kıyamet Canavarı',
+                health: 1500,
+                color: '#b57edc',
+                attackPattern: 'multi',
+                speed: 1,
+                size: 180
+            }
+        };
+
+        let activePowerUps = [];
+        let powerUpItems = [];
+        let explosions = [];
+        let agentBeams = [];
+
+        const texts = {
+            English: {
+                start: '🚀 START GAME',
+                shop: '🛒 COSMIC MARKETPLACE',
+                controlsBtn: '⌨️ KEYBOARD CONTROLS',
+                language: '🌐 LANGUAGE: ENGLISH',
+                backToMenu: 'BACK TO MENU',
+                easy: 'EASY',
+                normal: 'NORMAL', 
+                hard: 'HARD',
+                extreme: 'EXTREME',
+                impossible: 'IMPOSSIBLE',
+                lives: 'Lives: ',
+                score: 'Score: ',
+                gold: 'Gold: ',
+                pause: 'GAME PAUSED',
+                powers: 'Powers: ',
+                boss: 'BOSS INCOMING!',
+                shopTitle: '🚀 COSMIC MARKETPLACE 🌟',
+                shipSkins: '🚀 SPACESHIP SKINS - 35 GOLD',
+                meteorSkins: '☄️ METEOR SKINS - 25 GOLD',
+                universes: '🌌 UNIVERSES - 100 GOLD',
+                helperSystems: '🛡️ HELPER SYSTEMS',
+                price: 'Price: ',
+                owned: '✅ OWNED',
+                buy: '🛒 BUY NOW',
+                purchaseSuccess: ' successfully purchased!',
+                controlsText: "🎮 GAME CONTROLS:\n\nMovement: A/D or Left/Right Arrows\nShoot: Space or W or Click/Tap\nPause/Resume: P\nAgent: Q (when available)\n\n📱 TOUCH CONTROLS:\nLeft/Right buttons for movement\nRed button to shoot\nAgent button when available",
+                modeDescriptions: {
+                    easy: 'Easy Mode: Perfect for beginners - Slow meteors, more lives',
+                    normal: 'Normal Mode: Balanced challenge - Standard speed and difficulty',
+                    hard: 'Hard Mode: For experienced players - Faster meteors, more health', 
+                    extreme: 'Extreme Mode: Only for experts - Very fast, tough meteors',
+                    impossible: 'Impossible Mode: Are you crazy? - Ultimate challenge!'
+                },
+                notEnoughGold: 'Not enough gold! Destroy more meteors to earn gold.',
+                equipSuccess: ' equipped successfully!',
+                alreadyOwned: 'You already own this item!',
+                agentDescription: '🛰 AGENT - Destroys 10 meteors automatically',
+                agentReady: 'Agent Ready! Press Q or click the button',
+                agentActive: 'Agent is destroying meteors!',
+                agentCooldown: 'Agent cooldown: '
+            },
+            Turkish: {
+                start: '🚀 OYUNU BAŞLAT',
+                shop: '🛒 KOZMİK MARKET',
+                controlsBtn: '⌨️ KLAVYE KONTROLLERİ',
+                language: '🌐 DİL: TÜRKÇE',
+                backToMenu: 'MENÜYE DÖN',
+                easy: 'KOLAY',
+                normal: 'NORMAL',
+                hard: 'ZOR', 
+                extreme: 'EKSTREM',
+                impossible: 'İMKANSIZ',
+                lives: 'Can: ',
+                score: 'Skor: ',
+                gold: 'Altın: ',
+                pause: 'OYUN DURAKLATILDI',
+                powers: 'Güçler: ',
+                boss: 'BOSS GELİYOR!',
+                shopTitle: '🚀 KOZMİK MARKET 🌟',
+                shipSkins: '🚀 GEMİ SKİNLERİ - 35 ALTIN',
+                meteorSkins: '☄️ METEOR SKİNLERİ - 25 ALTIN',
+                universes: '🌌 EVRENLER - 100 ALTIN',
+                helperSystems: '🛡️ YARDIMCI SİSTEMLER',
+                price: 'Fiyat: ',
+                owned: '✅ SAHİPSİN',
+                buy: '🛒 SATIN AL',
+                purchaseSuccess: ' başarıyla satın alındı!',
+                controlsText: "🎮 OYUN KONTROLLERİ:\n\nHareket: A/D veya Sol/Sağ Oklar\nAteş Et: Boşluk veya W veya Tıklama\nDuraklat/Devam: P\nAgent: Q (hazır olduğunda)\n\n📱 DOKUNMATİK KONTROLLER:\nHareket için sol/sağ butonlar\nAteş etmek için kırmızı buton\nAgent butonu hazır olduğunda",
+                modeDescriptions: {
+                    easy: 'Kolay Mod: Yeni başlayanlar için ideal - Yavaş meteorlar, fazla can',
+                    normal: 'Normal Mod: Dengeli zorluk - Standart hız ve zorluk',
+                    hard: 'Zor Mod: Tecrübeli oyuncular için - Hızlı meteorlar, fazla can', 
+                    extreme: 'Ekstrem Mod: Sadece uzmanlar için - Çok hızlı, güçlü meteorlar',
+                    impossible: 'İmkansız Mod: Deli misin? - Ultimate zorluk!'
+                },
+                notEnoughGold: 'Yeterli altın yok! Daha fazla meteor yok ederek altın kazan.',
+                equipSuccess: ' başarıyla eklendi!',
+                alreadyOwned: 'Bu eşyaya zaten sahipsin!',
+                agentDescription: '🛰 AGENT - 10 meteoru otomatik olarak yok eder',
+                agentReady: 'Agent Hazır! Q tuşuna basın veya butona tıklayın',
+                agentActive: 'Agent meteorları yok ediyor!',
+                agentCooldown: 'Agent bekleme süresi: '
+            }
+        };
+
+        const ship = {
+            x: canvas.width / 2,
+            y: canvas.height - 80,
+            width: 45,
+            height: 30,
+            speed: 6,
+            health: 100,
+            maxHealth: 100,
+            color: '#b57edc',
+            moveLeft: false,
+            moveRight: false,
+            shield: false
+        };
+
+        const gameModeSettings = {
+            Easy: {
+                meteorSize: 20,
+                meteorSpeed: 2,
+                meteorHealth: 1,
+                spawnRate: 0.02,
+                powerUpRate: 0.01,
+                bossHealth: 500,
+                playerSpeed: 5,
+                lives: 3
+            },
+            Normal: {
+                meteorSize: 18,
+                meteorSpeed: 3,
+                meteorHealth: 1,
+                spawnRate: 0.025,
+                powerUpRate: 0.008,
+                bossHealth: 800,
+                playerSpeed: 6,
+                lives: 3
+            },
+            Hard: {
+                meteorSize: 16,
+                meteorSpeed: 4,
+                meteorHealth: 2,
+                spawnRate: 0.03,
+                powerUpRate: 0.006,
+                bossHealth: 1000,
+                playerSpeed: 6,
+                lives: 3
+            },
+            Extreme: {
+                meteorSize: 15,
+                meteorSpeed: 5,
+                meteorHealth: 2,
+                spawnRate: 0.035,
+                powerUpRate: 0.005,
+                bossHealth: 1200,
+                playerSpeed: 7,
+                lives: 3
+            },
+            Impossible: {
+                meteorSize: 12,
+                meteorSpeed: 7,
+                meteorHealth: 3,
+                spawnRate: 0.05,
+                powerUpRate: 0.003,
+                bossHealth: 1500,
+                playerSpeed: 8,
+                lives: 3
+            }
+        };
+
+        let meteors = [];
+        let bullets = [];
+        let boss = null;
+
+        function setupControls() {
+            const leftBtn = document.getElementById('leftBtn');
+            const rightBtn = document.getElementById('rightBtn');
+            const shootBtn = document.getElementById('shootBtn');
+
+            const handleStart = (e, isLeft) => {
+                e.preventDefault();
+                if (isLeft) {
+                    ship.moveLeft = true;
+                    ship.moveRight = false;
+                } else {
+                    ship.moveRight = true;
+                    ship.moveLeft = false;
+                }
+            };
+
+            const handleEnd = (e, isLeft) => {
+                e.preventDefault();
+                if (isLeft) {
+                    ship.moveLeft = false;
+                } else {
+                    ship.moveRight = false;
+                }
+            };
+            
+            leftBtn.addEventListener('touchstart', (e) => handleStart(e, true));
+            leftBtn.addEventListener('touchend', (e) => handleEnd(e, true));
+            leftBtn.addEventListener('mousedown', (e) => handleStart(e, true));
+            leftBtn.addEventListener('mouseup', (e) => handleEnd(e, true));
+
+            rightBtn.addEventListener('touchstart', (e) => handleStart(e, false));
+            rightBtn.addEventListener('touchend', (e) => handleEnd(e, false));
+            rightBtn.addEventListener('mousedown', (e) => handleStart(e, false));
+            rightBtn.addEventListener('mouseup', (e) => handleEnd(e, false));
+
+            shootBtn.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                if (gameActive && !gamePaused) shoot();
+            });
+            shootBtn.addEventListener('mousedown', (e) => {
+                e.preventDefault();
+                if (gameActive && !gamePaused) shoot();
+            });
+            
+            document.addEventListener('keydown', (e) => {
+                if (!gameActive || gamePaused) return;
+
+                if (e.code === 'ArrowLeft' || e.code === 'KeyA') {
+                    ship.moveLeft = true;
+                    ship.moveRight = false;
+                } else if (e.code === 'ArrowRight' || e.code === 'KeyD') {
+                    ship.moveRight = true;
+                    ship.moveLeft = false;
+                } else if (e.code === 'Space' || e.code === 'KeyW') {
+                    e.preventDefault();
+                    shoot();
+                } else if (e.code === 'KeyP') {
+                    togglePause();
+                } else if (e.code === 'KeyQ' && agent.unlocked && agent.cooldown <= 0 && !agent.active) {
+                    activateAgent();
+                }
+            });
+
+            document.addEventListener('keyup', (e) => {
+                if (!gameActive) return;
+
+                if (e.code === 'ArrowLeft' || e.code === 'KeyA') {
+                    ship.moveLeft = false;
+                } else if (e.code === 'ArrowRight' || e.code === 'KeyD') {
+                    ship.moveRight = false;
+                }
+            });
+
+            // Agent butonu event listener
+            agentBtn.addEventListener('click', function() {
+                if (gameActive && !gamePaused && agent.unlocked && agent.cooldown <= 0 && !agent.active) {
+                    activateAgent();
+                }
+            });
+        }
+
+        function activateAgent() {
+            if (!agent.unlocked || agent.active || agent.cooldown > 0) return;
+            
+            agent.active = true;
+            agent.meteorsDestroyed = 0;
+            agentBtn.disabled = true;
+            agentBtn.classList.remove('ready');
+            agentBtn.classList.add('active');
+            
+            // Mesaj gösterme - KALDIRILDI
+        }
+
+        function updateAgent() {
+            // Progress çemberini güncelle
+            if (agent.cooldown > 0) {
+                const progress = 100 - (agent.cooldown / agent.maxCooldown) * 100;
+                agentProgress.style.background = `conic-gradient(#00ff00 ${progress}%, transparent ${progress}%)`;
+                agent.cooldown--;
+                
+                // Cooldown gösterimi
+                const seconds = Math.ceil(agent.cooldown / 60);
+                const lang = texts[language];
+                agentCooldown.textContent = lang.agentCooldown + seconds + 's';
+                
+                if (agent.cooldown <= 0) {
+                    agentCooldown.style.display = 'none';
+                    agentProgress.style.background = 'conic-gradient(#00ff00 100%, transparent 0%)';
+                    if (agent.unlocked) {
+                        agentBtn.disabled = false;
+                        agentBtn.classList.add('ready');
+                        agentBtn.classList.remove('active');
+                    }
+                }
+            } else {
+                agentProgress.style.background = 'conic-gradient(#00ff00 100%, transparent 0%)';
+            }
+            
+            if (agent.active) {
+                // En yakın 10 meteoru yok et
+                if (meteors.length > 0 && agent.meteorsDestroyed < agent.meteorsToDestroy) {
+                    const meteor = meteors[0]; // İlk meteoru al
+                    
+                    // Işın efekti oluştur
+                    agentBeams.push({
+                        x: meteor.x,
+                        y: 0,
+                        height: meteor.y,
+                        life: 1.0
+                    });
+                    
+                    // Meteoru yok et
+                    createExplosion(meteor.x, meteor.y, meteor.size * 2, '#00ff00');
+                    score += meteor.points;
+                    gold += Math.floor(meteor.points / 5);
+                    agent.meteorsDestroyed++;
+                    
+                    meteors.splice(0, 1);
+                    
+                    drawScore();
+                    drawGold();
+                    saveGameData();
+                    
+                    // Tüm meteorları yok ettiyse agent'ı kapat
+                    if (agent.meteorsDestroyed >= agent.meteorsToDestroy) {
+                        agent.active = false;
+                        agent.cooldown = agent.maxCooldown;
+                        agentCooldown.style.display = 'block';
+                        agentBtn.classList.remove('active');
+                    }
+                } else if (meteors.length === 0) {
+                    // Meteor kalmadıysa agent'ı kapat
+                    agent.active = false;
+                    agent.cooldown = agent.maxCooldown;
+                    agentCooldown.style.display = 'block';
+                    agentBtn.classList.remove('active');
+                }
+            }
+        }
+
+        function drawAgentBeams() {
+            agentBeams.forEach((beam, index) => {
+                ctx.globalAlpha = beam.life;
+                ctx.strokeStyle = '#00ff00';
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                ctx.moveTo(beam.x, beam.y);
+                ctx.lineTo(beam.x, beam.y + beam.height);
+                ctx.stroke();
+                
+                // Işın ucu efekti
+                ctx.fillStyle = '#00ff00';
+                ctx.beginPath();
+                ctx.arc(beam.x, beam.y + beam.height, 5, 0, Math.PI * 2);
+                ctx.fill();
+                
+                beam.life -= 0.05;
+                if (beam.life <= 0) {
+                    agentBeams.splice(index, 1);
+                }
+            });
+            ctx.globalAlpha = 1.0;
+        }
+
+        function createMeteor() {
+            const settings = gameModeSettings[gameMode];
+            const meteorTypes = Object.keys(METEOR_TYPES);
+            const randomType = meteorTypes[Math.floor(Math.random() * meteorTypes.length)];
+            const type = METEOR_TYPES[randomType];
+            
+            const meteorColor = meteorSkins[currentMeteorSkin].color;
+            
+            return {
+                x: Math.random() * canvas.width,
+                y: -30,
+                size: settings.meteorSize,
+                speed: settings.meteorSpeed,
+                health: type.health,
+                color: meteorColor,
+                type: randomType,
+                points: type.points,
+                effect: type.effect,
+                invisible: type.effect === 'invisible' ? Math.random() < 0.5 : false
+            };
+        }
+
+        function createBoss() {
+            const settings = gameModeSettings[gameMode];
+            const bossKeys = Object.keys(BOSSES);
+            const randomBoss = bossKeys[Math.floor(Math.random() * bossKeys.length)];
+            const bossData = BOSSES[randomBoss];
+            
+            bossActive = true;
+            bossHealth = bossData.health * (settings.bossHealth / 1000);
+            bossMaxHealth = bossHealth;
+            currentBoss = randomBoss;
+            
+            bossHealthBar.style.display = 'block';
+            bossName.style.display = 'block';
+            bossName.textContent = bossData.name;
+            updateBossHealthBar();
+            
+            return {
+                x: canvas.width / 2,
+                y: 100,
+                width: bossData.size,
+                height: bossData.size * 0.6,
+                speed: bossData.speed,
+                color: bossData.color,
+                attackPattern: bossData.attackPattern,
+                lastAttack: 0,
+                attackCooldown: 2000,
+                name: bossData.name
+            };
+        }
+
+        function updateBossHealthBar() {
+            const healthPercent = (bossHealth / bossMaxHealth) * 100;
+            const healthFill = bossHealthBar.querySelector('.boss-health-fill');
+            healthFill.style.width = healthPercent + '%';
+            
+            if (healthPercent > 60) {
+                healthFill.style.background = 'linear-gradient(90deg, #9370db, #b57edc)';
+            } else if (healthPercent > 30) {
+                healthFill.style.background = 'linear-gradient(90deg, #b57edc, #ba55d3)';
+            } else {
+                healthFill.style.background = 'linear-gradient(90deg, #ba55d3, #9370db)';
+            }
+        }
+
+        function createPowerUp() {
+            const settings = gameModeSettings[gameMode];
+            const powerTypes = ['shield', 'rapidFire', 'tripleShot', 'bomb', 'laser', 'timeFreeze', 'apocalypse'];
+            const type = powerTypes[Math.floor(Math.random() * powerTypes.length)];
+            
+            return {
+                x: Math.random() * (canvas.width - 30),
+                y: -20,
+                width: 25,
+                height: 25,
+                type: type,
+                color: getPowerUpColor(type),
+                speed: 2
+            };
+        }
+
+        function getPowerUpColor(type) {
+            const colors = {
+                shield: '#87ceeb',
+                rapidFire: '#b57edc',
+                tripleShot: '#9370db',
+                bomb: '#ba55d3',
+                laser: '#98fb98',
+                timeFreeze: '#d8bfd8',
+                apocalypse: '#ff00ff'
+            };
+            return colors[type];
+        }
+
+        function getPowerUpSymbol(type) {
+            const symbols = {
+                shield: '🛡️',
+                rapidFire: '⚡',
+                tripleShot: '🔺',
+                bomb: '💣',
+                laser: '📡',
+                timeFreeze: '⏰',
+                apocalypse: '💀'
+            };
+            return symbols[type];
+        }
+
+        function shoot() {
+            const baseDamage = 10;
+            
+            if (powerUps.tripleShot.active) {
+                bullets.push({x: ship.x - 15, y: ship.y - 40, vx: 0, vy: -12, color: '#9370db', damage: baseDamage * 2});
+                bullets.push({x: ship.x, y: ship.y - 40, vx: 0, vy: -12, color: '#9370db', damage: baseDamage * 2});
+                bullets.push({x: ship.x + 15, y: ship.y - 40, vx: 0, vy: -12, color: '#9370db', damage: baseDamage * 2});
+            } else if (powerUps.laser.active) {
+                bullets.push({x: ship.x, y: ship.y - 40, vx: 0, vy: -18, color: '#98fb98', width: 8, height: 25, damage: baseDamage * 3});
+            } else if (powerUps.apocalypse.active) {
+                bullets.push({x: ship.x - 10, y: ship.y - 40, vx: -1, vy: -14, color: '#ff00ff', damage: baseDamage * 4});
+                bullets.push({x: ship.x, y: ship.y - 40, vx: 0, vy: -14, color: '#ff00ff', damage: baseDamage * 4});
+                bullets.push({x: ship.x + 10, y: ship.y - 40, vx: 1, vy: -14, color: '#ff00ff', damage: baseDamage * 4});
+            } else {
+                const bulletSpeed = powerUps.rapidFire.active ? -14 : -10;
+                bullets.push({x: ship.x, y: ship.y - 40, vx: 0, vy: bulletSpeed, color: '#b57edc', width: 5, height: 15, damage: baseDamage});
+            }
+        }
+
+        function createExplosion(x, y, size, color) {
+            explosions.push({
+                x: x,
+                y: y,
+                size: size,
+                color: color,
+                life: 1.0,
+                maxLife: 1.0
+            });
+        }
+
+        function drawShip() {
+            ctx.fillStyle = ship.color;
+            ctx.beginPath();
+            ctx.moveTo(ship.x, ship.y - ship.height);
+            ctx.lineTo(ship.x - ship.width/2, ship.y);
+            ctx.lineTo(ship.x + ship.width/2, ship.y);
+            ctx.closePath();
+            ctx.fill();
+
+            if (powerUps.rapidFire.active) {
+                ctx.fillStyle = '#b57edc';
+                ctx.beginPath();
+                ctx.moveTo(ship.x - 10, ship.y);
+                ctx.lineTo(ship.x, ship.y + 15);
+                ctx.lineTo(ship.x + 10, ship.y);
+                ctx.closePath();
+                ctx.fill();
+            }
+
+            if (ship.shield) {
+                ctx.strokeStyle = powerUps.apocalypse.active ? '#ff00ff' : '#87ceeb';
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                ctx.arc(ship.x, ship.y - ship.height/2, ship.width, 0, Math.PI * 2);
+                ctx.stroke();
+            }
+        }
+
+        function drawMeteors() {
+            meteors.forEach(meteor => {
+                if (meteor.invisible && Math.sin(Date.now() / 200) > 0) {
+                    ctx.globalAlpha = 0.3;
+                } else {
+                    ctx.globalAlpha = 1.0;
+                }
+                
+                ctx.fillStyle = meteor.color;
+                ctx.beginPath();
+                ctx.arc(meteor.x, meteor.y, meteor.size, 0, Math.PI * 2);
+                ctx.fill();
+
+                if (meteor.type === 'LAVA') {
+                    ctx.fillStyle = '#ba55d3';
+                    ctx.beginPath();
+                    ctx.arc(meteor.x, meteor.y, meteor.size * 0.6, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+
+                ctx.globalAlpha = 1.0;
+            });
+        }
+
+        function drawBoss() {
+            if (!bossActive) return;
+
+            ctx.fillStyle = boss.color;
+            
+            if (currentBoss === 'INFERNO_DRAGON') {
+                ctx.beginPath();
+                ctx.ellipse(boss.x, boss.y, boss.width/2, boss.height/2, 0, 0, Math.PI * 2);
+                ctx.fill();
+                
+                ctx.fillStyle = '#ba55d3';
+                ctx.beginPath();
+                ctx.ellipse(boss.x, boss.y + boss.height/3, boss.width/3, boss.height/4, 0, 0, Math.PI * 2);
+                ctx.fill();
+                
+            } else if (currentBoss === 'DARK_LORD') {
+                ctx.beginPath();
+                ctx.moveTo(boss.x, boss.y - boss.height/2);
+                ctx.lineTo(boss.x - boss.width/2, boss.y + boss.height/2);
+                ctx.lineTo(boss.x + boss.width/2, boss.y + boss.height/2);
+                ctx.closePath();
+                ctx.fill();
+                
+            } else {
+                ctx.fillRect(boss.x - boss.width/2, boss.y - boss.height/2, boss.width, boss.height);
+            }
+        }
+
+        function drawPowerUps() {
+            powerUpItems.forEach(powerUp => {
+                ctx.fillStyle = powerUp.color;
+                ctx.fillRect(powerUp.x, powerUp.y, powerUp.width, powerUp.height);
+                
+                ctx.fillStyle = '#ffffff';
+                ctx.font = '12px Arial';
+                ctx.textAlign = 'center';
+                ctx.fillText(getPowerUpSymbol(powerUp.type), powerUp.x + powerUp.width/2, powerUp.y + powerUp.height/2 + 4);
+                ctx.textAlign = 'left';
+            });
+        }
+
+        function drawBullets() {
+            bullets.forEach(bullet => {
+                ctx.fillStyle = bullet.color;
+                if (bullet.width && bullet.height) {
+                    ctx.fillRect(bullet.x - bullet.width/2, bullet.y, bullet.width, bullet.height);
+                } else {
+                    ctx.beginPath();
+                    ctx.arc(bullet.x, bullet.y, 3, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            });
+        }
+
+        function drawExplosions() {
+            explosions.forEach((explosion, index) => {
+                const progress = explosion.life / explosion.maxLife;
+                const size = explosion.size * (1 - progress);
+                
+                ctx.globalAlpha = progress;
+                ctx.fillStyle = explosion.color;
+                ctx.beginPath();
+                ctx.arc(explosion.x, explosion.y, size, 0, Math.PI * 2);
+                ctx.fill();
+                
+                explosion.life -= 0.05;
+                if (explosion.life <= 0) {
+                    explosions.splice(index, 1);
+                }
+            });
+            ctx.globalAlpha = 1.0;
+        }
+
+        function drawLives() {
+            const lang = texts[language];
+            livesDisplay.textContent = lang.lives + '❤️'.repeat(lives);
+        }
+
+        function drawScore() {
+            const lang = texts[language];
+            scoreDisplay.textContent = lang.score + score;
+        }
+
+        function drawGold() {
+            const lang = texts[language];
+            const goldText = lang.gold + gold;
+            goldDisplay.textContent = goldText;
+            menuGoldDisplay.textContent = goldText;
+            goldDisplayShop.textContent = goldText;
+        }
+
+        function drawPowerDisplay() {
+            const lang = texts[language];
+            let powerText = lang.powers;
+            
+            activePowerUps.forEach(power => {
+                powerText += getPowerUpSymbol(power) + ' ';
+            });
+            
+            powerDisplay.textContent = powerText;
+        }
+
+        function saveGameData() {
+            const gameData = {
+                gold: gold,
+                currentShipSkin: currentShipSkin,
+                currentMeteorSkin: currentMeteorSkin,
+                currentUniverse: currentUniverse,
+                shipSkins: {},
+                meteorSkins: {},
+                universes: {},
+                language: language,
+                gameMode: gameMode,
+                agentUnlocked: agent.unlocked
+            };
+
+            Object.keys(shipSkins).forEach(key => {
+                gameData.shipSkins[key] = {
+                    unlocked: shipSkins[key].unlocked
+                };
+            });
+
+            Object.keys(meteorSkins).forEach(key => {
+                gameData.meteorSkins[key] = {
+                    unlocked: meteorSkins[key].unlocked
+                };
+            });
+
+            Object.keys(universes).forEach(key => {
+                gameData.universes[key] = {
+                    unlocked: universes[key].unlocked
+                };
+            });
+
+            localStorage.setItem('ultimateMeteor3Data', JSON.stringify(gameData));
+        }
+
+        function loadGameData() {
+            const savedData = localStorage.getItem('ultimateMeteor3Data');
+            if (savedData) {
+                try {
+                    const gameData = JSON.parse(savedData);
+                    
+                    gold = gameData.gold || 0;
+                    currentShipSkin = gameData.currentShipSkin || 'default';
+                    currentMeteorSkin = gameData.currentMeteorSkin || 'default';
+                    currentUniverse = gameData.currentUniverse || 'default';
+                    language = gameData.language || 'Turkish';
+                    gameMode = gameData.gameMode || 'Easy';
+                    agent.unlocked = gameData.agentUnlocked || false;
+                    
+                    if (gameData.shipSkins) {
+                        Object.keys(gameData.shipSkins).forEach(key => {
+                            if (shipSkins[key]) {
+                                shipSkins[key].unlocked = gameData.shipSkins[key].unlocked || false;
+                            }
+                        });
+                    }
+                    
+                    if (gameData.meteorSkins) {
+                        Object.keys(gameData.meteorSkins).forEach(key => {
+                            if (meteorSkins[key]) {
+                                meteorSkins[key].unlocked = gameData.meteorSkins[key].unlocked || false;
+                            }
+                        });
+                    }
+
+                    if (gameData.universes) {
+                        Object.keys(gameData.universes).forEach(key => {
+                            if (universes[key]) {
+                                universes[key].unlocked = gameData.universes[key].unlocked || false;
+                            }
+                        });
+                    }
+                    
+                    ship.color = shipSkins[currentShipSkin].color;
+                    
+                } catch (error) {
+                    console.error('Oyun verisi yüklenirken hata:', error);
+                }
+            }
+        }
+
+        function setupShop() {
+            const shopItems = document.getElementById('shopItems');
+            shopItems.innerHTML = '';
+
+            const lang = texts[language];
+
+            // Evrenler Bölümü
+            const universeHeader = document.createElement('h3');
+            universeHeader.textContent = lang.universes;
+            universeHeader.style.color = '#b57edc';
+            universeHeader.style.textAlign = 'center';
+            universeHeader.style.marginBottom = '1rem';
+            shopItems.appendChild(universeHeader);
+
+            Object.keys(universes).forEach(universeKey => {
+                const universe = universes[universeKey];
+                const item = document.createElement('div');
+                item.className = `shop-item ${universe.unlocked ? 'unlocked' : 'locked'}`;
+                
+                const isCurrent = currentUniverse === universeKey;
+                const isOwned = universe.unlocked;
+                
+                // Evren önizleme arkaplanı
+                const previewStyle = universeKey === 'earth' ? 'background: linear-gradient(45deg, #001122, #004466)' :
+                                  universeKey === 'apocalypse' ? 'background: linear-gradient(45deg, #330000, #660000)' :
+                                  'background: linear-gradient(45deg, #110011, #330033)';
+                
+                item.innerHTML = `
+                    <h3>${universe.name[language]}</h3>
+                    <div class="universe-preview" style="${previewStyle}"></div>
+                    ${!isOwned ? `<div class="price-tag">${lang.price} ${universe.price} 💰</div>` : ''}
+                    <div style="display: flex; gap: 0.5rem; justify-content: center; margin-top: 0.5rem;">
+                        ${!isOwned ? 
+                            `<button onclick="buyUniverse('${universeKey}')" style="
+                                background: #b57edc;
+                                color: white;
+                                border: none;
+                                padding: 0.5rem 1rem;
+                                border-radius: 10px;
+                                cursor: pointer;
+                                font-weight: bold;
+                                flex: 1;
+                            ">${lang.buy}</button>` : 
+                            `<button onclick="equipUniverse('${universeKey}')" style="
+                                background: ${isCurrent ? '#98fb98' : '#87ceeb'};
+                                color: ${isCurrent ? 'black' : 'white'};
+                                border: none;
+                                padding: 0.5rem 1rem;
+                                border-radius: 10px;
+                                cursor: pointer;
+                                font-weight: bold;
+                                flex: 1;
+                            ">${isCurrent ? '✅ ' + (language === 'Turkish' ? 'AKTİF' : 'ACTIVE') : (language === 'Turkish' ? 'KULLAN' : 'EQUIP')}</button>`
+                        }
+                    </div>
+                    ${isCurrent ? '<div style="color: #98fb98; margin-top: 0.5rem; font-weight: bold;">✓ ' + (language === 'Turkish' ? 'Şu an kullanılıyor' : 'Currently equipped') + '</div>' : ''}
+                `;
+                shopItems.appendChild(item);
+            });
+
+            // Gemi Skinleri Bölümü
+            const shipHeader = document.createElement('h3');
+            shipHeader.textContent = lang.shipSkins;
+            shipHeader.style.color = '#b57edc';
+            shipHeader.style.textAlign = 'center';
+            shipHeader.style.marginTop = '2rem';
+            shipHeader.style.marginBottom = '1rem';
+            shopItems.appendChild(shipHeader);
+
+            Object.keys(shipSkins).forEach(skinKey => {
+                const skin = shipSkins[skinKey];
+                const item = document.createElement('div');
+                item.className = `shop-item ${skin.unlocked ? 'unlocked' : 'locked'}`;
+                
+                const isCurrent = currentShipSkin === skinKey;
+                const isOwned = skin.unlocked;
+                
+                item.innerHTML = `
+                    <h3>${skin.name[language]}</h3>
+                    <div class="skin-preview">
+                        <div class="preview-ship" style="--ship-color: ${skin.color}"></div>
+                    </div>
+                    ${!isOwned ? `<div class="price-tag">${lang.price} ${skin.price} 💰</div>` : ''}
+                    <div style="display: flex; gap: 0.5rem; justify-content: center; margin-top: 0.5rem;">
+                        ${!isOwned ? 
+                            `<button onclick="buyItem('ship', '${skinKey}')" style="
+                                background: #b57edc;
+                                color: white;
+                                border: none;
+                                padding: 0.5rem 1rem;
+                                border-radius: 10px;
+                                cursor: pointer;
+                                font-weight: bold;
+                                flex: 1;
+                            ">${lang.buy}</button>` : 
+                            `<button onclick="equipItem('ship', '${skinKey}')" style="
+                                background: ${isCurrent ? '#98fb98' : '#87ceeb'};
+                                color: ${isCurrent ? 'black' : 'white'};
+                                border: none;
+                                padding: 0.5rem 1rem;
+                                border-radius: 10px;
+                                cursor: pointer;
+                                font-weight: bold;
+                                flex: 1;
+                            ">${isCurrent ? '✅ ' + (language === 'Turkish' ? 'AKTİF' : 'ACTIVE') : (language === 'Turkish' ? 'KULLAN' : 'EQUIP')}</button>`
+                        }
+                    </div>
+                    ${isCurrent ? '<div style="color: #98fb98; margin-top: 0.5rem; font-weight: bold;">✓ ' + (language === 'Turkish' ? 'Şu an kullanılıyor' : 'Currently equipped') + '</div>' : ''}
+                `;
+                shopItems.appendChild(item);
+            });
+
+            // Meteor Skinleri Bölümü
+            const meteorHeader = document.createElement('h3');
+            meteorHeader.textContent = lang.meteorSkins;
+            meteorHeader.style.color = '#b57edc';
+            meteorHeader.style.textAlign = 'center';
+            meteorHeader.style.marginTop = '2rem';
+            meteorHeader.style.marginBottom = '1rem';
+            shopItems.appendChild(meteorHeader);
+
+            Object.keys(meteorSkins).forEach(skinKey => {
+                const skin = meteorSkins[skinKey];
+                const item = document.createElement('div');
+                item.className = `shop-item ${skin.unlocked ? 'unlocked' : 'locked'}`;
+                
+                const isCurrent = currentMeteorSkin === skinKey;
+                const isOwned = skin.unlocked;
+                
+                item.innerHTML = `
+                    <h3>${skin.name[language]}</h3>
+                    <div class="skin-preview">
+                        <div class="preview-meteor" style="--meteor-color: ${skin.color}"></div>
+                    </div>
+                    ${!isOwned ? `<div class="price-tag">${lang.price} ${skin.price} 💰</div>` : ''}
+                    <div style="display: flex; gap: 0.5rem; justify-content: center; margin-top: 0.5rem;">
+                        ${!isOwned ? 
+                            `<button onclick="buyItem('meteor', '${skinKey}')" style="
+                                background: #b57edc;
+                                color: white;
+                                border: none;
+                                padding: 0.5rem 1rem;
+                                border-radius: 10px;
+                                cursor: pointer;
+                                font-weight: bold;
+                                flex: 1;
+                            ">${lang.buy}</button>` : 
+                            `<button onclick="equipItem('meteor', '${skinKey}')" style="
+                                background: ${isCurrent ? '#98fb98' : '#87ceeb'};
+                                color: ${isCurrent ? 'black' : 'white'};
+                                border: none;
+                                padding: 0.5rem 1rem;
+                                border-radius: 10px;
+                                cursor: pointer;
+                                font-weight: bold;
+                                flex: 1;
+                            ">${isCurrent ? '✅ ' + (language === 'Turkish' ? 'AKTİF' : 'ACTIVE') : (language === 'Turkish' ? 'KULLAN' : 'EQUIP')}</button>`
+                        }
+                    </div>
+                    ${isCurrent ? '<div style="color: #98fb98; margin-top: 0.5rem; font-weight: bold;">✓ ' + (language === 'Turkish' ? 'Şu an kullanılıyor' : 'Currently equipped') + '</div>' : ''}
+                `;
+                shopItems.appendChild(item);
+            });
+
+            // YARDIMCI SİSTEMLER Bölümü
+            const helperHeader = document.createElement('h3');
+            helperHeader.textContent = lang.helperSystems;
+            helperHeader.style.color = '#b57edc';
+            helperHeader.style.textAlign = 'center';
+            helperHeader.style.marginTop = '2rem';
+            helperHeader.style.marginBottom = '1rem';
+            shopItems.appendChild(helperHeader);
+
+            // Agent Item
+            const agentItem = document.createElement('div');
+            agentItem.className = `shop-item ${agent.unlocked ? 'unlocked' : 'locked'}`;
+            
+            agentItem.innerHTML = `
+                <h3>🛰️ ${lang.agentDescription}</h3>
+                <div style="margin: 0.5rem 0; color: #d8bfd8; font-size: 0.9rem;">
+                    ${language === 'Turkish' ? 
+                     '• 30 saniye bekleme süresi<br>• 10 meteoru otomatik yok eder<br>• Q tuşu veya buton ile aktifleştirilir' :
+                     '• 30 second cooldown<br>• Destroys 10 meteors automatically<br>• Activated with Q key or button'}
+                </div>
+                ${!agent.unlocked ? `<div class="price-tag">${lang.price} ${agent.price} 💰</div>` : ''}
+                <div style="display: flex; gap: 0.5rem; justify-content: center; margin-top: 0.5rem;">
+                    ${!agent.unlocked ? 
+                        `<button onclick="buyAgent()" style="
+                            background: #b57edc;
+                            color: white;
+                            border: none;
+                            padding: 0.5rem 1rem;
+                            border-radius: 10px;
+                            cursor: pointer;
+                            font-weight: bold;
+                            flex: 1;
+                        ">${lang.buy}</button>` : 
+                        `<div style="
+                            background: #98fb98;
+                            color: black;
+                            border: none;
+                            padding: 0.5rem 1rem;
+                            border-radius: 10px;
+                            font-weight: bold;
+                            flex: 1;
+                        ">✅ ${language === 'Turkish' ? 'SATIN ALINDI' : 'PURCHASED'}</div>`
+                    }
+                </div>
+                ${agent.unlocked ? '<div style="color: #98fb98; margin-top: 0.5rem; font-weight: bold;">✓ ' + (language === 'Turkish' ? 'Sistem aktif' : 'System active') + '</div>' : ''}
+            `;
+            shopItems.appendChild(agentItem);
+
+            shopTitle.textContent = lang.shopTitle;
+        }
+
+        function buyAgent() {
+            const lang = texts[language];
+            
+            if (agent.unlocked) {
+                alert(lang.alreadyOwned);
+                return;
+            }
+            
+            if (gold >= agent.price) {
+                gold -= agent.price;
+                agent.unlocked = true;
+                
+                drawGold();
+                setupShop();
+                saveGameData();
+                
+                alert(`✅ ${lang.agentDescription}${lang.purchaseSuccess}`);
+            } else {
+                alert(lang.notEnoughGold);
+            }
+        }
+
+        function buyUniverse(universeKey) {
+            const universe = universes[universeKey];
+            const lang = texts[language];
+            
+            if (universe.unlocked) {
+                alert(lang.alreadyOwned);
+                return;
+            }
+            
+            if (gold >= universe.price) {
+                gold -= universe.price;
+                universe.unlocked = true;
+                
+                drawGold();
+                setupShop();
+                saveGameData();
+                
+                alert(`✅ ${universe.name[language]}${lang.purchaseSuccess}`);
+            } else {
+                alert(lang.notEnoughGold);
+            }
+        }
+
+        function equipUniverse(universeKey) {
+            const lang = texts[language];
+            currentUniverse = universeKey;
+            
+            setupShop();
+            saveGameData();
+            
+            alert(`✅ ${universes[universeKey].name[language]}${lang.equipSuccess}`);
+        }
+
+        function buyItem(type, itemKey) {
+            const items = type === 'ship' ? shipSkins : meteorSkins;
+            const item = items[itemKey];
+            const lang = texts[language];
+            
+            if (item.unlocked) {
+                alert(lang.alreadyOwned);
+                return;
+            }
+            
+            if (gold >= item.price) {
+                gold -= item.price;
+                item.unlocked = true;
+                
+                drawGold();
+                setupShop();
+                saveGameData();
+                
+                alert(`✅ ${item.name[language]}${lang.purchaseSuccess}`);
+            } else {
+                alert(lang.notEnoughGold);
+            }
+        }
+
+        function equipItem(type, itemKey) {
+            const lang = texts[language];
+            
+            if (type === 'ship') {
+                currentShipSkin = itemKey;
+                ship.color = shipSkins[itemKey].color;
+            } else {
+                currentMeteorSkin = itemKey;
+            }
+            
+            setupShop();
+            saveGameData();
+            
+            alert(`✅ ${type === 'ship' ? shipSkins[itemKey].name[language] : meteorSkins[itemKey].name[language]}${lang.equipSuccess}`);
+        }
+
+        function setupGameModes() {
+            const modes = ['easy', 'normal', 'hard', 'extreme', 'impossible'];
+            
+            modes.forEach(mode => {
+                document.getElementById(mode + 'Mode').addEventListener('click', function() {
+                    gameMode = mode.charAt(0).toUpperCase() + mode.slice(1);
+                    
+                    document.querySelectorAll('.mode-btn').forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    updateModeDescription();
+                    
+                    saveGameData();
+                });
+            });
+        }
+
+        function updateModeDescription() {
+            const lang = texts[language];
+            modeDescription.textContent = lang.modeDescriptions[gameMode.toLowerCase()];
+        }
+
+        document.getElementById('shopBtn').addEventListener('click', function() {
+            menu.style.display = 'none';
+            shopMenu.style.display = 'flex';
+            setupShop();
+        });
+
+        document.getElementById('backToMenuBtn').addEventListener('click', function() {
+            shopMenu.style.display = 'none';
+            menu.style.display = 'flex';
+        });
+
+        document.getElementById('shopBackBtn').addEventListener('click', function() {
+            shopMenu.style.display = 'none';
+            menu.style.display = 'flex';
+        });
+
+        document.getElementById('keyboardControlsBtn').addEventListener('click', function() {
+            const lang = texts[language];
+            alert(lang.controlsText);
+        });
+
+        document.getElementById('language-btn').addEventListener('click', function() {
+            language = language === 'English' ? 'Turkish' : 'English';
+            updateUI();
+            saveGameData();
+        });
+
+        function updateUI() {
+            const lang = texts[language];
+            document.getElementById('startBtn').textContent = lang.start;
+            document.getElementById('shopBtn').textContent = lang.shop;
+            document.getElementById('easyMode').textContent = lang.easy;
+            document.getElementById('normalMode').textContent = lang.normal;
+            document.getElementById('hardMode').textContent = lang.hard;
+            document.getElementById('extremeMode').textContent = lang.extreme;
+            document.getElementById('impossibleMode').textContent = lang.impossible;
+            document.getElementById('language-btn').textContent = lang.language;
+            document.getElementById('keyboardControlsBtn').textContent = lang.controlsBtn;
+            document.getElementById('backToMenuBtn').textContent = lang.backToMenu;
+            
+            updateModeDescription();
+            drawLives();
+            drawScore();
+            drawGold();
+            drawPowerDisplay();
+        }
+
+        function gameLoop() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            drawSpaceBackground();
+            drawStars();
+            updateStars();
+            
+            if (gameActive) {
+                updateGame();
+                drawMeteors();
+                drawPowerUps();
+                drawBullets();
+                drawBoss();
+                drawExplosions();
+                drawAgentBeams();
+                drawShip();
+                updateAgent();
+            }
+            
+            requestAnimationFrame(gameLoop);
+        }
+
+        function drawSpaceBackground() {
+            const currentUniverseData = universes[currentUniverse];
+            ctx.fillStyle = currentUniverseData.background;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Evrene özel efektler
+            if (currentUniverse === 'earth') {
+                // Dünya evreni efektleri - mavi-yeşil tonlar
+                ctx.fillStyle = 'rgba(0, 100, 200, 0.1)';
+                ctx.beginPath();
+                ctx.arc(canvas.width * 0.2, canvas.height * 0.3, 80, 0, Math.PI * 2);
+                ctx.fill();
+                
+                ctx.fillStyle = 'rgba(0, 150, 100, 0.1)';
+                ctx.beginPath();
+                ctx.arc(canvas.width * 0.8, canvas.height * 0.2, 60, 0, Math.PI * 2);
+                ctx.fill();
+            } else if (currentUniverse === 'apocalypse') {
+                // Kıyamet evreni efektleri - kırmızı-tonları
+                ctx.fillStyle = 'rgba(255, 0, 0, 0.1)';
+                ctx.beginPath();
+                ctx.arc(canvas.width * 0.2, canvas.height * 0.3, 80, 0, Math.PI * 2);
+                ctx.fill();
+                
+                ctx.fillStyle = 'rgba(200, 50, 0, 0.1)';
+                ctx.beginPath();
+                ctx.arc(canvas.width * 0.8, canvas.height * 0.2, 60, 0, Math.PI * 2);
+                ctx.fill();
+            } else {
+                // Standart evren efektleri
+                ctx.fillStyle = 'rgba(181, 126, 220, 0.1)';
+                ctx.beginPath();
+                ctx.arc(canvas.width * 0.2, canvas.height * 0.3, 80, 0, Math.PI * 2);
+                ctx.fill();
+                
+                ctx.fillStyle = 'rgba(147, 112, 219, 0.1)';
+                ctx.beginPath();
+                ctx.arc(canvas.width * 0.8, canvas.height * 0.2, 60, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function togglePause() {
+            if (!gameActive) return;
+            gamePaused = !gamePaused;
+            pauseBtn.textContent = gamePaused ? "▶" : "⏸";
+        }
+
+        function endGame() {
+            gameActive = false;
+            gamePaused = false;
+            menu.style.display = 'flex';
+            pauseBtn.style.display = 'none';
+            agentBtn.style.display = 'none';
+            agentCooldown.style.display = 'none';
+            bossHealthBar.style.display = 'none';
+            bossName.style.display = 'none';
+            saveGameData();
+        }
+
+        function updateGame() {
+            if (gamePaused) return;
+            
+            const timeScale = powerUps.timeFreeze.active ? 0.3 : 1.0;
+            
+            if (ship.moveLeft && ship.x - ship.width/2 > 0) {
+                ship.x -= ship.speed * timeScale;
+            }
+            if (ship.moveRight && ship.x + ship.width/2 < canvas.width) {
+                ship.x += ship.speed * timeScale;
+            }
+            
+            meteors.forEach((meteor, index) => {
+                meteor.y += meteor.speed * timeScale;
+                
+                if (Math.abs(meteor.x - ship.x) < meteor.size + ship.width/2 && 
+                    Math.abs(meteor.y - ship.y) < meteor.size + ship.height/2) {
+                    
+                    if (ship.shield) {
+                        ship.shield = false;
+                        createExplosion(meteor.x, meteor.y, meteor.size * 2, '#87ceeb');
+                    } else {
+                        lives--;
+                        drawLives();
+                        createExplosion(ship.x, ship.y, 30, '#b57edc');
+                        if (lives <= 0) {
+                            endGame();
+                        }
+                    }
+                    meteors.splice(index, 1);
+                }
+                
+                bullets.forEach((bullet, bIndex) => {
+                    if (bullet.vy < 0 && Math.abs(meteor.x - bullet.x) < meteor.size + 3 && 
+                        Math.abs(meteor.y - bullet.y) < meteor.size + 8) {
+                        
+                        meteor.health -= bullet.damage || 10;
+                        bullets.splice(bIndex, 1);
+                        createExplosion(meteor.x, meteor.y, 15, meteor.color);
+                        
+                        if (meteor.health <= 0) {
+                            if (meteor.effect === 'explosive') {
+                                createExplosion(meteor.x, meteor.y, meteor.size * 3, '#ba55d3');
+                            }
+                            
+                            meteors.splice(index, 1);
+                            score += meteor.points;
+                            meteorsDestroyed++;
+                            gold += Math.floor(meteor.points / 5);
+                            drawScore();
+                            drawGold();
+                            saveGameData();
+                            
+                            if (meteorsDestroyed % 12 === 0 && !bossActive) {
+                                boss = createBoss();
+                            }
+                        }
+                    }
+                });
+            });
+            
+            if (bossActive) {
+                boss.x += Math.sin(Date.now() / 1000) * boss.speed * timeScale;
+                
+                if (Date.now() - boss.lastAttack > boss.attackCooldown * timeScale) {
+                    boss.lastAttack = Date.now();
+                    
+                    if (boss.attackPattern === 'fire') {
+                        bullets.push({x: boss.x, y: boss.y + 40, vx: 0, vy: 6, color: '#ba55d3', damage: 20});
+                    } else if (boss.attackPattern === 'shadow') {
+                        bullets.push({x: boss.x - 20, y: boss.y + 40, vx: -1, vy: 5, color: '#9370db', damage: 15});
+                        bullets.push({x: boss.x + 20, y: boss.y + 40, vx: 1, vy: 5, color: '#9370db', damage: 15});
+                    } else {
+                        for (let i = 0; i < 3; i++) {
+                            bullets.push({
+                                x: boss.x - 30 + i * 30, 
+                                y: boss.y + 40, 
+                                vx: (i - 1) * 0.5, 
+                                vy: 6, 
+                                color: '#b57edc', 
+                                damage: 10
+                            });
+                        }
+                    }
+                }
+                
+                bullets.forEach((bullet, bIndex) => {
+                    if (bullet.vy < 0 && Math.abs(boss.x - bullet.x) < boss.width/2 && 
+                        Math.abs(boss.y - bullet.y) < boss.height/2) {
+                        
+                        bossHealth -= (bullet.damage || 10);
+                        bullets.splice(bIndex, 1);
+                        createExplosion(bullet.x, bullet.y, 20, boss.color);
+                        updateBossHealthBar();
+                        
+                        if (bossHealth <= 0) {
+                            bossActive = false;
+                            bossHealthBar.style.display = 'none';
+                            bossName.style.display = 'none';
+                            createExplosion(boss.x, boss.y, 100, boss.color);
+                            score += 500;
+                            gold += 50;
+                            drawScore();
+                            drawGold();
+                            saveGameData();
+                        }
+                    } else if (bullet.vy > 0 && Math.abs(ship.x - bullet.x) < ship.width/2 && Math.abs(ship.y - bullet.y) < ship.height/2) {
+                        if (ship.shield) {
+                            ship.shield = false;
+                            createExplosion(bullet.x, bullet.y, 20, '#87ceeb');
+                        } else {
+                            lives--;
+                            drawLives();
+                            createExplosion(ship.x, ship.y, 30, '#b57edc');
+                            if (lives <= 0) {
+                                endGame();
+                            }
+                        }
+                        bullets.splice(bIndex, 1);
+                    }
+                });
+            }
+            
+            powerUpItems.forEach((powerUp, index) => {
+                powerUp.y += powerUp.speed * timeScale;
+                
+                if (Math.abs(powerUp.x - ship.x) < powerUp.width + ship.width/2 && 
+                    Math.abs(powerUp.y - ship.y) < powerUp.height + ship.height/2) {
+                    
+                    activatePowerUp(powerUp.type);
+                    powerUpItems.splice(index, 1);
+                    createExplosion(powerUp.x, powerUp.y, 20, powerUp.color);
+                }
+                
+                if (powerUp.y > canvas.height) {
+                    powerUpItems.splice(index, 1);
+                }
+            });
+            
+            updatePowerUpDurations();
+            
+            const settings = gameModeSettings[gameMode];
+            if (Math.random() < settings.spawnRate * timeScale) {
+                meteors.push(createMeteor());
+            }
+            
+            if (Math.random() < settings.powerUpRate * timeScale) {
+                powerUpItems.push(createPowerUp());
+            }
+            
+            bullets.forEach((bullet, index) => {
+                bullet.y += bullet.vy * timeScale;
+                bullet.x += bullet.vx * timeScale;
+                if (bullet.y < 0 || bullet.y > canvas.height || bullet.x < 0 || bullet.x > canvas.width) {
+                    bullets.splice(index, 1);
+                }
+            });
+        }
+
+        function activatePowerUp(type) {
+            powerUps[type].active = true;
+            powerUps[type].duration = powerUps[type].maxDuration;
+            
+            if (!activePowerUps.includes(type)) {
+                activePowerUps.push(type);
+            }
+            
+            if (type === 'shield') {
+                ship.shield = true;
+            }
+            
+            drawPowerDisplay();
+        }
+
+        function updatePowerUpDurations() {
+            activePowerUps.forEach((type, index) => {
+                powerUps[type].duration--;
+                
+                if (powerUps[type].duration <= 0) {
+                    powerUps[type].active = false;
+                    activePowerUps.splice(index, 1);
+                    
+                    if (type === 'shield') {
+                        ship.shield = false;
+                    }
+                }
+            });
+            drawPowerDisplay();
+        }
+
+        document.getElementById('startBtn').addEventListener('click', () => {
+            gameActive = true;
+            gamePaused = false;
+            score = 0;
+            
+            lives = 3;
+            
+            meteorsDestroyed = 0;
+            bossActive = false;
+            meteors = [];
+            bullets = [];
+            powerUpItems = [];
+            activePowerUps = [];
+            explosions = [];
+            agentBeams = [];
+            
+            createStars();
+            
+            Object.keys(powerUps).forEach(key => {
+                powerUps[key].active = false;
+                powerUps[key].duration = 0;
+            });
+            
+            ship.shield = false;
+            menu.style.display = 'none';
+            pauseBtn.style.display = 'block';
+            pauseBtn.textContent = '⏸';
+            
+            // Agent butonunu göster
+            if (agent.unlocked) {
+                agentBtn.style.display = 'block';
+                if (agent.cooldown <= 0) {
+                    agentBtn.disabled = false;
+                    agentBtn.classList.add('ready');
+                } else {
+                    agentBtn.disabled = true;
+                    agentCooldown.style.display = 'block';
+                }
+            }
+            
+            ship.x = canvas.width / 2;
+            
+            const settings = gameModeSettings[gameMode];
+            ship.speed = settings.playerSpeed;
+            
+            updateUI();
+        });
+
+        pauseBtn.addEventListener('click', togglePause);
+
+        loadGameData();
+        setupControls();
+        setupGameModes();
+        setupShop();
+        updateUI();
+        createStars();
+        gameLoop();
+
+        window.buyItem = buyItem;
+        window.equipItem = equipItem;
+        window.buyUniverse = buyUniverse;
+        window.equipUniverse = equipUniverse;
+        window.buyAgent = buyAgent;
+    </script>
+</body>
+</html>
+</textarea>
+
+        <div class="btn-group">
+            <a href="#" id="downloadBtn" class="btn btn-download">KODLARI İNDİR</a>
+            <button id="copyBtn" class="btn btn-copy">PANOYA KOPYALA</button>
+        </div>
+    </div>
+
+    <script>
+        const sourceTextArea = document.getElementById('source-text');
+        const downloadBtn = document.getElementById('downloadBtn');
+        const copyBtn = document.getElementById('copyBtn');
+
+        // İndirme İşlemi
+        downloadBtn.addEventListener('click', (e) => {
+            const textContent = sourceTextArea.value;
+            const blob = new Blob(["\ufeff" + textContent], { type: 'text/plain;charset=utf-8' });
+            downloadBtn.href = URL.createObjectURL(blob);
+            downloadBtn.download = 'Ultimate_Meteor_3_Source.txt';
+        });
+
+        // Kopyalama İşlemi (WebView Uyumlu)
+        copyBtn.addEventListener('click', () => {
+            sourceTextArea.select();
+            sourceTextArea.setSelectionRange(0, 99999);
+
+            try {
+                const basarili = document.execCommand('copy');
+                if (basarili) {
+                    const eskiYazi = copyBtn.textContent;
+                    copyBtn.textContent = "✓ KOPYALANDI!";
+                    copyBtn.style.background = "linear-gradient(to bottom, #4CAF50, #2E7D32)";
+                    setTimeout(() => {
+                        copyBtn.textContent = eskiYazi;
+                        copyBtn.style.background = "linear-gradient(to bottom, #444, #222)";
+                    }, 2000);
+                }
+            } catch (err) {
+                alert("Hata oluştu, lütfen manuel kopyalayın.");
+            }
+        });
+    </script>
+</body>
+</html>
